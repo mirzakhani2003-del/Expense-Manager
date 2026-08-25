@@ -4,6 +4,8 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SummaryCard from "../components/dashboard/SummaryCard";
+import RecentTransactions from "../components/dashboard/RecentTransactions";
+import { transactions } from "../data/transactions";
 
 const Dashboard = () => {
   return (
@@ -32,6 +34,10 @@ const Dashboard = () => {
         <SummaryCard title="Total Income" amount="$6,800" icon={<TrendingUpIcon color="succes" />} />
         <SummaryCard title="Total Expenses" amount="$2,550" icon={<TrendingDownIcon color="error" />} />
         <SummaryCard title="Savings" amount="$4,250" icon={<SavingsIcon color="secondary" />} />
+      </Box>
+
+      <Box sx={{mt:4}}>
+        <RecentTransactions transactions={transactions} />
       </Box>
     </Box>
   );

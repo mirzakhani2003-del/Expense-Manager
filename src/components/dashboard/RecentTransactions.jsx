@@ -1,0 +1,29 @@
+import { Box, Paper, Typography } from "@mui/material";
+
+import TransactionItem from "./TransactionItem";
+
+const RecentTransactions = ({ transactions }) => {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        p: 3,
+        borderRadius: 3,
+        border: "1px solid",
+        borderColor: "divider",
+      }}
+    >
+      <Typography variant="h6" fontWeight="bold" sx={{ mb: 1 }}>
+        Recent Transactions
+      </Typography>
+
+      <Box>
+        {transactions.map((transaction) => (
+          <TransactionItem key={transaction.id} transaction={transaction} />
+        ))}
+      </Box>
+    </Paper>
+  );
+};
+
+export default RecentTransactions;
