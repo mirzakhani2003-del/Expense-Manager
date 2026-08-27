@@ -12,7 +12,7 @@ export const transactions = [
     title: "Salary",
     amount: 2500,
     type: "income",
-    category: "salary",
+    category: "Salary",
     date: "2026-08-23",
   },
   {

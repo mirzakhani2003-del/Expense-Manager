@@ -1,8 +1,10 @@
 import { Box, Paper, Typography } from "@mui/material";
-
 import TransactionItem from "./TransactionItem";
+import { useTransaction } from "../../context/TransactionContext";
 
-const RecentTransactions = ({ transactions }) => {
+const RecentTransactions = ({ onEdit }) => {
+  const { transactions } = useTransaction();
+
   return (
     <Paper
       elevation={0}
@@ -19,7 +21,7 @@ const RecentTransactions = ({ transactions }) => {
 
       <Box>
         {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id} transaction={transaction} />
+          <TransactionItem key={transaction.id} transaction={transaction} onEdit={onEdit} />
         ))}
       </Box>
     </Paper>

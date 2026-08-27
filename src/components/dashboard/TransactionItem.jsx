@@ -1,9 +1,13 @@
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography, Chip, IconButton } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useTransaction } from "../../context/TransactionContext";
 
-const TransactionItem = ({ transaction }) => {
+const TransactionItem = ({ transaction, onEdit }) => {
   const isIncome = transaction.type === "income";
+  const { deleteTransaction } = useTransaction();
 
   return (
     <Box
@@ -44,6 +48,14 @@ const TransactionItem = ({ transaction }) => {
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Chip label={transaction.category} size="small" />
         <Typography fontWeight="bold" color={isIncome ? "success.main" : "error.main"}>{isIncome ? "+" : "-"}${transaction.amount}</Typography>
+        
+        <IconButton color="primary" onClick={() => onEdit(transaction)}>
+          <EditIcon />
+        </IconButton>
+        
+        <IconButton color="error" onClick={() => deleteTransaction(transaction.id)}>
+          <DeleteIcon />
+        </IconButton>
       </Box>
     </Box>
   );
