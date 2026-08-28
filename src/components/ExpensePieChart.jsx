@@ -11,6 +11,15 @@ import { Box, Typography } from "@mui/material";
 import { useTransaction } from "../context/TransactionContext";
 
 const ExpensePieCharts = () => {
+  const COLORS = [
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#A855F7",
+    "#EF4444",
+  ];
+
   const { transactions } = useTransaction();
 
   const chartData = useMemo(() => {
@@ -50,7 +59,7 @@ const ExpensePieCharts = () => {
       </Box>
     );
   }
-  
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <PieChart>
@@ -64,7 +73,7 @@ const ExpensePieCharts = () => {
           label
         >
           {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} />
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
 

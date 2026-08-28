@@ -1,10 +1,9 @@
-import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SummaryCard from "../components/dashboard/SummaryCard";
-import RecentTransactions from "../components/dashboard/RecentTransactions";
 import { useTransaction } from "../context/TransactionContext";
 
 const Dashboard = () => {
@@ -41,7 +40,7 @@ const Dashboard = () => {
             lg: "repeat(4, 1fr)",
           },
           gap: 2,
-          mt: 2,
+          mt: 3,
         }}
       >
         <SummaryCard

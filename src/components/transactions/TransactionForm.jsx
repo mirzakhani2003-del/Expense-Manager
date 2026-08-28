@@ -160,10 +160,6 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
             Cancel
           </Button>
         )}
-
-        <Button type="button" onClick={() => addCategory("Education")}>
-          Add Education
-        </Button>
       </Box>
     </Paper>
   );

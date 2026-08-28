@@ -21,7 +21,7 @@ function Transactions() {
           display: "grid",
           gridTemplateColumns: {
             xs: "1fr",
-            lg: "1fr",
+            lg: "1fr 1fr",
           },
           gap: 3,
         }}

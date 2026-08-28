@@ -6,19 +6,29 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ReceptLongIcon from "@mui/icons-material/ReceiptLong";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
-const Sidebar = () => {
+const Sidebar = ({ open, onClose }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Drawer
-      variant="permanent"
+      variant={isMobile ? "temporary" : "permanent"}
+      open={isMobile ? open : true}
+      onClose={onClose}
+      ModalProps={{
+        keepMounted: true,
+      }}
       sx={{
         width: drawerWidth,
         flexShrink: 0,
@@ -38,7 +48,11 @@ const Sidebar = () => {
         <ListItemButton
           component={NavLink}
           to="/"
+          onClick={onClose}
           sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
             "&.active": {
               backgroundColor: "primary.main",
               color: "white",
@@ -58,7 +72,11 @@ const Sidebar = () => {
         <ListItemButton
           component={NavLink}
           to="/transactions"
+          onClick={onClose}
           sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
             "&.active": {
               backgroundColor: "primary.main",
               color: "white",
@@ -70,7 +88,7 @@ const Sidebar = () => {
           }}
         >
           <ListItemIcon>
-            <ReceptLongIcon />
+            <ReceiptLongIcon  />
           </ListItemIcon>
           <ListItemText primary="Transactions" />
         </ListItemButton>
@@ -78,7 +96,11 @@ const Sidebar = () => {
         <ListItemButton
           component={NavLink}
           to="/categories"
+          onClick={onClose}
           sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
             "&.active": {
               backgroundColor: "primary.main",
               color: "white",
@@ -98,7 +120,11 @@ const Sidebar = () => {
         <ListItemButton
           component={NavLink}
           to="/reports"
+          onClick={onClose}
           sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
             "&.active": {
               backgroundColor: "primary.main",
               color: "white",
