@@ -1,10 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { transactions as initialTransactions } from "../data/transactions";
 
 const TransactionContext = createContext();
 
 export const TransactionProvider = ({ children }) => {
-  const [transactions, setTransactions] = useState(initialTransactions);
+  const [transactions, setTransactions] = useState(() => {
+    const savedTransactions = localStorage.getItem("transactions");
+
+    return savedTransactions
+      ? JSON.parse(savedTransactions)
+      : initialTransactions;
+  });
 
   const addTransaction = (transaction) => {
     setTransactions((prev) => [
@@ -32,9 +38,18 @@ export const TransactionProvider = ({ children }) => {
     );
   };
 
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
+
   return (
     <TransactionContext.Provider
-      value={{ transactions, addTransaction, deleteTransaction, updateTransaction }}
+      value={{
+        transactions,
+        addTransaction,
+        deleteTransaction,
+        updateTransaction,
+      }}
     >
       {children}
     </TransactionContext.Provider>
