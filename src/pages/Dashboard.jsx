@@ -1,4 +1,4 @@
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -9,6 +9,8 @@ import TransactionForm from "../components/transactions/TransactionForm";
 import { useState } from "react";
 import { useTransaction } from "../context/TransactionContext";
 import CategoryManager from "../components/CategoryManager";
+import ExpensePieChart from "../components/ExpensePieChart";
+import IncomeExpenseChart from "../components/IncomeExpenseChart";
 
 const Dashboard = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
@@ -23,6 +25,8 @@ const Dashboard = () => {
     .reduce((total, transaction) => total + transaction.amount, 0);
 
   const balance = totalIncome - totalExpenses;
+
+  const savings = totalIncome - totalExpenses;
 
   return (
     <Box>
@@ -63,7 +67,7 @@ const Dashboard = () => {
         />
         <SummaryCard
           title="Savings"
-          amount="$4,250"
+          amount={`${savings.toLocaleString()}`}
           icon={<SavingsIcon color="secondary" />}
         />
       </Box>
@@ -95,6 +99,38 @@ const Dashboard = () => {
         </Grid>
 
         <RecentTransactions onEdit={setEditingTransaction} />
+      </Box>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "1fr",
+            md: "repeat(2, 1fr)",
+          },
+          gap: 3,
+          mt: 3,
+        }}
+      >
+        <Card>
+          <CardContent>
+            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              Expenses by Category
+            </Typography>
+
+            <ExpensePieChart />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent>
+            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              Income & Expense
+            </Typography>
+
+            <IncomeExpenseChart />
+          </CardContent>
+        </Card>
       </Box>
     </Box>
   );

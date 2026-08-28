@@ -127,9 +127,6 @@ const RecentTransactions = ({ onEdit }) => {
               type="date"
               value={startDate}
               onChange={(event) => setStartDate(event.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
             />
           </Grid>
 
@@ -140,9 +137,6 @@ const RecentTransactions = ({ onEdit }) => {
               type="date"
               value={endDate}
               onChange={(event) => setEndDate(event.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
             />
           </Grid>
         </Grid>

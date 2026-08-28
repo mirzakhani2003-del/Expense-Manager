@@ -44,10 +44,12 @@ const CategoryManager = () => {
       >
         <CardContent>
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={1}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mb: 1,
+            }}
           >
             <Box>
               <Typography variant="h6" fontWeight={600}>
