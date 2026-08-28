@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTransaction } from "../../context/TransactionContext";
-import { transactions } from "../../data/transactions";
 import { useCategory } from "../../context/CategoryContext";
 
 const TransactionForm = ({ editingTransaction, onFinishEdit }) => {

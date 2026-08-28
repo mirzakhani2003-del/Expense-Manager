@@ -35,7 +35,13 @@ const CategoryManager = () => {
 
   return (
     <>
-      <Card>
+      <Card
+        sx={{
+          borderRadius: 3,
+          border: "1px solid",
+          borderColor: "divider",
+        }}
+      >
         <CardContent>
           <Box
             display="flex"
@@ -98,6 +104,7 @@ const CategoryManager = () => {
               variant="contained"
               startIcon={<AddIcon />}
               onClick={handleAdd}
+              sx={{ mt: 1 }}
             >
               Add
             </Button>
