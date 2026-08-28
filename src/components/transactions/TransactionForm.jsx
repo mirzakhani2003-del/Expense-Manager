@@ -9,9 +9,13 @@ import {
 import { useState, useEffect } from "react";
 import { useTransaction } from "../../context/TransactionContext";
 import { transactions } from "../../data/transactions";
+import { useCategory } from "../../context/CategoryContext";
 
 const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
   const { addTransaction, updateTransaction } = useTransaction();
+  const { categories, addCategory } = useCategory();
+  console.log(categories);
+
   const [formData, setFormData] = useState({
     title: "",
     amount: "",
@@ -126,11 +130,11 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
           onChange={handleChange}
           fullWidth
         >
-          <MenuItem value="Food">Food</MenuItem>
-          <MenuItem value="Transport">Transport</MenuItem>
-          <MenuItem value="Bills">Bills</MenuItem>
-          <MenuItem value="Entertainment">Entertainment</MenuItem>
-          <MenuItem value="Salary">Salary</MenuItem>
+          {categories.map((category) => (
+            <MenuItem key={category} value={category}>
+              {category}
+            </MenuItem>
+          ))}
         </TextField>
 
         <TextField
@@ -157,6 +161,10 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
             Cancel
           </Button>
         )}
+
+        <Button type="button" onClick={() => addCategory("Education")}>
+          Add Education
+        </Button>
       </Box>
     </Paper>
   );

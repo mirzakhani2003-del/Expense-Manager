@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
@@ -8,6 +8,7 @@ import RecentTransactions from "../components/dashboard/RecentTransactions";
 import TransactionForm from "../components/transactions/TransactionForm";
 import { useState } from "react";
 import { useTransaction } from "../context/TransactionContext";
+import CategoryManager from "../components/CategoryManager";
 
 const Dashboard = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
@@ -78,12 +79,21 @@ const Dashboard = () => {
           gap: 3,
         }}
       >
-        <TransactionForm
-          editingTransaction={editingTransaction}
-          onFinishEdit={() => {
-            setEditingTransaction(null);
-          }}
-        />
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <TransactionForm
+              editingTransaction={editingTransaction}
+              onFinishEdit={() => {
+                setEditingTransaction(null);
+              }}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 5 }}>
+            <CategoryManager />
+          </Grid>
+        </Grid>
+
         <RecentTransactions onEdit={setEditingTransaction} />
       </Box>
     </Box>
