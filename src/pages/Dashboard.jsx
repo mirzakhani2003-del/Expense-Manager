@@ -7,9 +7,21 @@ import SummaryCard from "../components/dashboard/SummaryCard";
 import RecentTransactions from "../components/dashboard/RecentTransactions";
 import TransactionForm from "../components/transactions/TransactionForm";
 import { useState } from "react";
+import { useTransaction } from "../context/TransactionContext";
 
 const Dashboard = () => {
   const [editingTransaction, setEditingTransaction] = useState(null);
+  const { transactions } = useTransaction();
+
+  const totalIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  const totalExpenses = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  const balance = totalIncome - totalExpenses;
 
   return (
     <Box>
@@ -35,17 +47,17 @@ const Dashboard = () => {
       >
         <SummaryCard
           title="Total Balance"
-          amount="$4,250"
+          amount={`${balance}`}
           icon={<AccountBalanceWalletIcon color="primary" />}
         />
         <SummaryCard
           title="Total Income"
-          amount="$6,800"
+          amount={`${totalIncome}`}
           icon={<TrendingUpIcon color="succes" />}
         />
         <SummaryCard
           title="Total Expenses"
-          amount="$2,550"
+          amount={`${totalExpenses}`}
           icon={<TrendingDownIcon color="error" />}
         />
         <SummaryCard
