@@ -8,10 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ReceptLongIcpn from "@mui/icons-material/ReceiptLong";
+import ReceptLongIcon from "@mui/icons-material/ReceiptLong";
 import CategoryIcon from "@mui/icons-material/Category";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -35,39 +35,84 @@ const Sidebar = () => {
       </Box>
 
       <List>
-        <ListItemButton>
+        <ListItemButton
+          component={NavLink}
+          to="/"
+          sx={{
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
+
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+          component={NavLink}
+          to="/transactions"
+          sx={{
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
+
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
           <ListItemIcon>
-            <DashboardIcon />
+            <ReceptLongIcon />
           </ListItemIcon>
           <ListItemText primary="Transactions" />
         </ListItemButton>
 
-        <ListItemButton>
+        <ListItemButton
+          component={NavLink}
+          to="/categories"
+          sx={{
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
+
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
           <ListItemIcon>
-            <DashboardIcon />
+            <CategoryIcon />
           </ListItemIcon>
           <ListItemText primary="Categories" />
         </ListItemButton>
 
-        <ListItemButton>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Wallets" />
-        </ListItemButton>
+        <ListItemButton
+          component={NavLink}
+          to="/reports"
+          sx={{
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
 
-        <ListItemButton>
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
           <ListItemIcon>
-            <DashboardIcon />
+            <BarChartIcon />
           </ListItemIcon>
-          <ListItemText primary="Reminders" />
+          <ListItemText primary="Reports" />
         </ListItemButton>
       </List>
     </Drawer>

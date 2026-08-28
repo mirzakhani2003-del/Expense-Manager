@@ -1,20 +1,37 @@
-import { Box } from "@mui/material";
-import Sidebar from "./components/layout/Sidebar";
-import Header from "./components/layout/Header";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
+import Transactions from "./pages/Transactions";
+import Categories from "./pages/Categories";
+import Reports from "./pages/Reports";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "transactions",
+        element: <Transactions />,
+      },
+      {
+        path: "categories",
+        element: <Categories />,
+      },
+      {
+        path: "reports",
+        element: <Reports />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <Box sx={{ display: "flex", minHeight: "100vh" }}>
-      <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        <Header />
-        <Box sx={{ p: 3 }}>
-          <Dashboard />
-        </Box>
-      </Box>
-    </Box>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
