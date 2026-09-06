@@ -27,12 +27,6 @@ const CategoryManager = () => {
     setCategoryName("");
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleAdd();
-    }
-  };
-
   return (
     <>
       <Card
@@ -100,7 +94,6 @@ const CategoryManager = () => {
               label="New Category"
               value={categoryName}
               onChange={(event) => setCategoryName(event.target.value)}
-              onKeyDown={handleKeyDown}
             />
             <Button
               variant="contained"
