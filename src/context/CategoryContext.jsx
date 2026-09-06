@@ -13,7 +13,7 @@ export const CategoryProvider = ({ children }) => {
 
   const [categories, setCategories] = useState(() => {
     try {
-      const savedCategories = localStorage.getItem("categories");
+      const savedCategories = localStorage.getItem("expense-manager-categories");
 
       if (!savedCategories) {
         return defaultCategories;
@@ -43,7 +43,7 @@ export const CategoryProvider = ({ children }) => {
 
       if (exists) return prev;
 
-      return [...prev, category];
+      return [...prev, trimmedCategory];
     });
   };
 
@@ -54,7 +54,7 @@ export const CategoryProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("categories", JSON.stringify(categories));
+    localStorage.setItem("expense-manager-categories", JSON.stringify(categories));
   }, [categories]);
 
   return (
