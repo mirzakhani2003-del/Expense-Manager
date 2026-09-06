@@ -39,7 +39,7 @@ const RecentTransactions = ({ onEdit }) => {
       categoryFilter === "all" || transaction.category === categoryFilter;
 
     const matchesStartDate = !startDate || transaction.date >= startDate;
-    const matchesEndDate = !endDate || transaction.date <= startDate;
+    const matchesEndDate = !endDate || transaction.date <= endDate;
 
     return (
       matchesSearch &&
@@ -51,11 +51,11 @@ const RecentTransactions = ({ onEdit }) => {
   });
 
   const resetFilters = () => {
-    (setSearchTerm(""),
-      setTypeFilter("all"),
-      setCategoryFilter("all"),
-      setStartDate(""),
-      setEndDate(""));
+    setSearchTerm("");
+    setTypeFilter("all");
+    setCategoryFilter("all");
+    setStartDate("");
+    setEndDate("");
   };
 
   return (
@@ -155,7 +155,7 @@ const RecentTransactions = ({ onEdit }) => {
             {filteredTransactions.length} transactions found
           </Typography>
 
-          <Button variant="outlined" onClick={resetFilters}>
+          <Button variant="outlined" onClick={() => resetFilters()}>
             Reset Filters
           </Button>
         </Box>

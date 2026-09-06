@@ -12,9 +12,23 @@ export const CategoryProvider = ({ children }) => {
   ];
 
   const [categories, setCategories] = useState(() => {
-    const savedCategories = localStorage.getItem("categories");
+    try {
+      const savedCategories = localStorage.getItem("categories");
 
-    return savedCategories ? JSON.parse(savedCategories) : defaultCategories;
+      if (!savedCategories) {
+        return defaultCategories;
+      }
+
+      const parsedCategories = JSON.parse(savedCategories);
+
+      return Array.isArray(parsedCategories)
+        ? parsedCategories
+        : defaultCategories;
+    } catch (error) {
+      console.error("Failed to load categories:", error);
+
+      return defaultCategories;
+    }
   });
 
   const addCategory = (category) => {
