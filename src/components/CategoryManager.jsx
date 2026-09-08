@@ -14,16 +14,18 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { useCategory } from "../context/CategoryContext";
+import { useDispatch, useSelector } from "react-redux";
+import { categoryActions } from "../redux/categorySlice";
 
 const CategoryManager = () => {
   const [categoryName, setCategoryName] = useState("");
-  const { categories, addCategory, deleteCategory } = useCategory();
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.categories);
 
   const handleAdd = () => {
     if (!categoryName.trim()) return;
 
-    addCategory(categoryName);
+    dispatch(categoryActions.addCategory(categoryName));
     setCategoryName("");
   };
 
@@ -71,12 +73,14 @@ const CategoryManager = () => {
                   py: 0.5,
                   mb: 0.5,
                   borderRadius: 1,
-                  "&.hover": { backgroundColor: "action.hover" },
+                  "&:hover": { backgroundColor: "action.hover" },
                 }}
                 secondaryAction={
                   <IconButton
                     edge="end"
-                    onClick={() => deleteCategory(category)}
+                    onClick={() =>
+                      dispatch(categoryActions.deleteCategory(category))
+                    }
                   >
                     <DeleteIcon />
                   </IconButton>

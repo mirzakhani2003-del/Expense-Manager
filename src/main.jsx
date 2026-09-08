@@ -1,16 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App.jsx";
-import { TransactionProvider } from "./context/TransactionContext.jsx";
-import { CategoryProvider } from "./context/CategoryContext.jsx";
+import { store } from "./redux/store.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <CategoryProvider>
-      <TransactionProvider>
+    <Provider store={store}>
         <App />
-      </TransactionProvider>
-    </CategoryProvider>
+    </Provider>
   </StrictMode>,
 );

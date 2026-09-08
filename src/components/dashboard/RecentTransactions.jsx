@@ -13,13 +13,12 @@ import {
   Grid,
 } from "@mui/material";
 import TransactionItem from "./TransactionItem";
-import { useTransaction } from "../../context/TransactionContext";
+import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useCategory } from "../../context/CategoryContext";
 
 const RecentTransactions = ({ onEdit }) => {
-  const { transactions } = useTransaction();
-  const { categories } = useCategory();
+  const transactions = useSelector((state) => state.transactions.transactions);
+  const categories = useSelector((state) => state.categories.categories);
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");

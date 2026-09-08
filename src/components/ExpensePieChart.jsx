@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Box, Typography } from "@mui/material";
-import { useTransaction } from "../context/TransactionContext";
+import { useSelector } from "react-redux";
 
 const ExpensePieCharts = () => {
   const COLORS = [
@@ -20,7 +20,7 @@ const ExpensePieCharts = () => {
     "#EF4444",
   ];
 
-  const { transactions } = useTransaction();
+  const transactions = useSelector((state) => state.transactions.transactions);
 
   const chartData = useMemo(() => {
     const expenses = transactions.filter(

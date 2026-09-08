@@ -4,10 +4,10 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SummaryCard from "../components/dashboard/SummaryCard";
-import { useTransaction } from "../context/TransactionContext";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-  const { transactions } = useTransaction();
+  const transactions = useSelector((state) => state.transactions.transactions);
 
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")

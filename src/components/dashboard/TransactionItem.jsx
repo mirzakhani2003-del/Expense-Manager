@@ -3,11 +3,12 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useTransaction } from "../../context/TransactionContext";
+import { useDispatch } from "react-redux";
+import { transactionActions } from "../../redux/transactionSlice";
 
 const TransactionItem = ({ transaction, onEdit }) => {
   const isIncome = transaction.type === "income";
-  const { deleteTransaction } = useTransaction();
+  const dispatch = useDispatch();
 
   return (
     <Box
@@ -47,13 +48,23 @@ const TransactionItem = ({ transaction, onEdit }) => {
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Chip label={transaction.category} size="small" />
-        <Typography fontWeight="bold" color={isIncome ? "success.main" : "error.main"}>{isIncome ? "+" : "-"}${transaction.amount}</Typography>
-        
+        <Typography
+          fontWeight="bold"
+          color={isIncome ? "success.main" : "error.main"}
+        >
+          {isIncome ? "+" : "-"}${transaction.amount}
+        </Typography>
+
         <IconButton color="primary" onClick={() => onEdit(transaction)}>
           <EditIcon />
         </IconButton>
-        
-        <IconButton color="error" onClick={() => deleteTransaction(transaction.id)}>
+
+        <IconButton
+          color="error"
+          onClick={() =>
+            dispatch(transactionActions.deleteTransaction(transaction.id))
+          }
+        >
           <DeleteIcon />
         </IconButton>
       </Box>

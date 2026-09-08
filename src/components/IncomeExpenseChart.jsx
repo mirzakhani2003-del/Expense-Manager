@@ -10,10 +10,10 @@ import {
   Legend,
 } from "recharts";
 import { Box, Typography } from "@mui/material";
-import { useTransaction } from "../context/TransactionContext";
+import { useSelector } from "react-redux";
 
 const IncomeExpenseChart = () => {
-  const { transactions } = useTransaction();
+  const transactions = useSelector((state) => state.transactions.transactions);
 
   const chartData = useMemo(() => {
     const groupedData = {};

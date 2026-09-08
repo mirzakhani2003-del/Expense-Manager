@@ -7,13 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useTransaction } from "../../context/TransactionContext";
-import { useCategory } from "../../context/CategoryContext";
+import { useDispatch, useSelector } from "react-redux";
+import { transactionActions } from "../../redux/transactionSlice";
 
 const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
-  const { addTransaction, updateTransaction } = useTransaction();
-  const { categories, addCategory } = useCategory();
-  console.log(categories);
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state.categories.categories);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -63,10 +62,15 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
     };
 
     if (editingTransaction) {
-      updateTransaction(editingTransaction.id, transactionData);
+      dispatch(
+        transactionActions.updateTransaction({
+          id: editingTransaction.id,
+          updatedTransaction: transactionData,
+        }),
+      );
       onFinishEdit();
     } else {
-      addTransaction(transactionData);
+      dispatch(transactionActions.addTransaction(transactionData));
     }
 
     resetForm();
@@ -99,6 +103,7 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
           fullWidth
           required
         />
+
         <TextField
           label="Amount"
           name="amount"
