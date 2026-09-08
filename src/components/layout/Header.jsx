@@ -1,18 +1,52 @@
-import { AppBar, Typography, IconButton, Toolbar, Box } from "@mui/material";
+import {
+  AppBar,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  Button,
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useLocation } from "react-router-dom";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../redux/authSlice";
+import { useState } from "react";
 
 const Header = ({ onMenuClick }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const menuOpen = Boolean(anchorEl);
 
   const pageTitles = {
-    "/": "Dashboard",
+    "/dashboard": "Dashboard",
     "/transactions": "Transactions",
     "/categories": "Categories",
     "/reports": "Reports",
   };
 
   const pageTitle = pageTitles[location.pathname] || "Expense Manager";
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = (event) => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    dispatch(authActions.logout());
+    handleMenuClose();
+    navigate("/login");
+  };
 
   return (
     <AppBar
@@ -63,6 +97,56 @@ const Header = ({ onMenuClick }) => {
           >
             {pageTitle}
           </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            {currentUser ? (
+              <>
+                <IconButton onClick={handleMenuOpen}>
+                  <Avatar>{currentUser.name.charAt(0).toUpperCase()}</Avatar>
+                </IconButton>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={menuOpen}
+                  onClose={handleMenuClose}
+                >
+                  <Box sx={{ px: 2, py: 1 }}>
+                    <Typography fontWeight="bold">
+                      {currentUser.name}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary">
+                      {currentUser.email}
+                    </Typography>
+                  </Box>
+
+                  <Divider />
+
+                  <MenuItem onClick={handleLogout}>
+                    <LogoutIcon sx={{ mr: 1 }} />
+                    Logout
+                  </MenuItem>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button onClick={() => navigate("/login")}>Login</Button>
+
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </Button>
+              </>
+            )}
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>

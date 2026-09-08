@@ -4,27 +4,55 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Categories from "./pages/Categories";
 import Reports from "./pages/Reports";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Landing from "./pages/Landing";
+import PublicRoute from "./components/PublicRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: <Landing />,
+  },
+
+  {
+    element: <PublicRoute />,
     children: [
       {
-        index: true,
-        element: <Dashboard />,
+        path: "/register",
+        element: <Register />,
       },
       {
-        path: "transactions",
-        element: <Transactions />,
+        path: "/login",
+        element: <Login />,
       },
+    ],
+  },
+
+  {
+    element: <ProtectedRoute />,
+    children: [
       {
-        path: "categories",
-        element: <Categories />,
-      },
-      {
-        path: "reports",
-        element: <Reports />,
+        element: <MainLayout />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Dashboard />,
+          },
+          {
+            path: "/transactions",
+            element: <Transactions />,
+          },
+          {
+            path: "/categories",
+            element: <Categories />,
+          },
+          {
+            path: "/reports",
+            element: <Reports />,
+          },
+        ],
       },
     ],
   },

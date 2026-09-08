@@ -47,7 +47,7 @@ const Sidebar = ({ open, onClose }) => {
       <List>
         <ListItemButton
           component={NavLink}
-          to="/"
+          to="/dashboard"
           onClick={onClose}
           sx={{
             mx: 1,
