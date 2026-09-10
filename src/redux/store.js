@@ -15,7 +15,7 @@ store.subscribe(() => {
   const state = store.getState();
 
   localStorage.setItem(
-    "transactions",
+    "expense-manager-transactions",
     JSON.stringify(state.transactions.transactions),
   );
 

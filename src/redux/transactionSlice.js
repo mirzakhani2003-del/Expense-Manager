@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { defaultTransactions } from "../data/transactions";
 
-const savedTransactions = localStorage.getItem("transactions");
+const savedTransactions = localStorage.getItem("expense-manager-transactions");
 
 const initialState = {
   transactions: savedTransactions ? JSON.parse(savedTransactions) : [],
