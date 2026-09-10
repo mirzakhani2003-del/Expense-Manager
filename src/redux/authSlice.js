@@ -14,10 +14,7 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     register: (state, action) => {
-      const newUser = {
-        id: Date.now(),
-        ...action.payload,
-      };
+      const newUser = action.payload;
 
       state.users.push(newUser);
 

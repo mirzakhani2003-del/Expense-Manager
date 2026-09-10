@@ -18,14 +18,24 @@ import { useState } from "react";
 
 const RecentTransactions = ({ onEdit }) => {
   const transactions = useSelector((state) => state.transactions.transactions);
-  const categories = useSelector((state) => state.categories.categories);
+  const allCategories = useSelector((state) => state.categories.categories);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const categories = allCategories.filter(
+    (category) => category.userId === currentUser.id,
+  );
+
+  const userTransactions = transactions.filter(
+    (transaction) => transaction.userId === currentUser.id,
+  );
+
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const filteredTransactions = transactions.filter((transaction) => {
+  const filteredTransactions = userTransactions.filter((transaction) => {
     const search = searchTerm.toLowerCase();
 
     const matchesSearch =
@@ -111,8 +121,8 @@ const RecentTransactions = ({ onEdit }) => {
                 <MenuItem value="all">All Categories</MenuItem>
 
                 {categories.map((category) => (
-                  <MenuItem key={category} value={category}>
-                    {category}
+                  <MenuItem key={category.id} value={category.name}>
+                    {category.name}
                   </MenuItem>
                 ))}
               </Select>

@@ -21,9 +21,14 @@ const ExpensePieCharts = () => {
   ];
 
   const transactions = useSelector((state) => state.transactions.transactions);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const userTransactions = transactions.filter(
+    (transaction) => transaction.userId === currentUser.id,
+  );
 
   const chartData = useMemo(() => {
-    const expenses = transactions.filter(
+    const expenses = userTransactions.filter(
       (transaction) => transaction.type === "expense",
     );
 
@@ -41,7 +46,7 @@ const ExpensePieCharts = () => {
       category,
       amount,
     }));
-  }, [transactions]);
+  }, [userTransactions]);
 
   if (chartData.length === 0) {
     return (

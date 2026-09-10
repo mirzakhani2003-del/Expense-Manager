@@ -8,12 +8,16 @@ import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const userTransactions = transactions.filter(
+    (transaction) => transaction.userId === currentUser.id,
+  );
 
-  const totalIncome = transactions
+  const totalIncome = userTransactions
     .filter((transaction) => transaction.type === "income")
     .reduce((total, transaction) => total + transaction.amount, 0);
 
-  const totalExpenses = transactions
+  const totalExpenses = userTransactions
     .filter((transaction) => transaction.type === "expense")
     .reduce((total, transaction) => total + transaction.amount, 0);
 

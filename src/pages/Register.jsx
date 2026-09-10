@@ -10,6 +10,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { categoryActions } from "../redux/categorySlice";
+import { defaultCategories } from "../data/defaultCategories";
+import { transactionActions } from "../redux/transactionSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -59,13 +62,29 @@ const Register = () => {
       return;
     }
 
+    const newUser = {
+      id: crypto.randomUUID(),
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      password: formData.password,
+    };
+
+    dispatch(authActions.register(newUser));
+
     dispatch(
-      authActions.register({
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        password: formData.password,
+      transactionActions.addDefaultTransactions({
+        userId: newUser.id,
       }),
     );
+
+    defaultCategories.forEach((categoryName) => {
+      dispatch(
+        categoryActions.addCategory({
+          name: categoryName,
+          userId: newUser.id,
+        }),
+      );
+    });
 
     navigate("/dashboard");
   };

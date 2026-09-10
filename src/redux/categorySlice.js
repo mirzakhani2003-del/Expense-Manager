@@ -1,14 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const defaultCategories = [
-  "Food",
-  "Transport",
-  "Bills",
-  "Entertainment",
-  "Shopping",
-];
-
-let categories = defaultCategories;
+let categories = [];
 
 try {
   const savedCategories = localStorage.getItem("expense-manager-categories");
@@ -33,21 +25,29 @@ const categorySlice = createSlice({
   initialState: initialState,
   reducers: {
     addCategory: (state, action) => {
-      const trimmedCategory = action.payload.trim();
+      const { name, userId } = action.payload;
+
+      const trimmedCategory = name.trim();
 
       if (!trimmedCategory) return;
 
       const exists = state.categories.some(
-        (category) => category.toLowerCase() === trimmedCategory.toLowerCase(),
+        (category) =>
+          category.userId === userId &&
+          category.name.toLowerCase() === trimmedCategory.toLowerCase(),
       );
 
       if (exists) return;
 
-      state.categories.push(trimmedCategory);
+      state.categories.push({
+        id: crypto.randomUUID(),
+        name: trimmedCategory,
+        userId,
+      });
     },
     deleteCategory: (state, action) => {
       state.categories = state.categories.filter(
-        (category) => category !== action.payload,
+        (category) => category.id !== action.payload,
       );
     },
   },

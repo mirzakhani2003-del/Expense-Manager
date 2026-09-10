@@ -14,33 +14,37 @@ import { useSelector } from "react-redux";
 
 const IncomeExpenseChart = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const chartData = useMemo(() => {
     const groupedData = {};
 
-    transactions.forEach((transaction) => {
-      const { date, amount, type } = transaction;
-      if (!groupedData[date]) {
-        groupedData[date] = {
-          date,
-          income: 0,
-          expense: 0,
-        };
-      }
+    transactions
+      .filter((transaction) => transaction.userId === currentUser.id)
+      .forEach((transaction) => {
+        const { date, amount, type } = transaction;
 
-      if (type === "income") {
-        groupedData[date].income += Number(amount);
-      }
+        if (!groupedData[date]) {
+          groupedData[date] = {
+            date,
+            income: 0,
+            expense: 0,
+          };
+        }
 
-      if (type === "expense") {
-        groupedData[date].expense += Number(amount);
-      }
-    });
+        if (type === "income") {
+          groupedData[date].income += Number(amount);
+        }
+
+        if (type === "expense") {
+          groupedData[date].expense += Number(amount);
+        }
+      });
 
     return Object.values(groupedData).sort(
       (a, b) => new Date(a.date) - new Date(b.date),
     );
-  }, [transactions]);
+  }, [transactions, currentUser]);
 
   if (chartData.length === 0) {
     return (

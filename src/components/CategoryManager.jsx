@@ -20,12 +20,23 @@ import { categoryActions } from "../redux/categorySlice";
 const CategoryManager = () => {
   const [categoryName, setCategoryName] = useState("");
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
+  const allCategories = useSelector((state) => state.categories.categories);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
+  const categories = allCategories.filter(
+    (category) => category.userId === currentUser.id,
+  );
 
   const handleAdd = () => {
     if (!categoryName.trim()) return;
 
-    dispatch(categoryActions.addCategory(categoryName));
+    dispatch(
+      categoryActions.addCategory({
+        name: categoryName,
+        userId: currentUser.id,
+      }),
+    );
+
     setCategoryName("");
   };
 
@@ -66,7 +77,7 @@ const CategoryManager = () => {
           <List disablePadding>
             {categories.map((category) => (
               <ListItem
-                key={category}
+                key={category.id}
                 disableGutters
                 sx={{
                   px: 1,
@@ -79,14 +90,14 @@ const CategoryManager = () => {
                   <IconButton
                     edge="end"
                     onClick={() =>
-                      dispatch(categoryActions.deleteCategory(category))
+                      dispatch(categoryActions.deleteCategory(category.id))
                     }
                   >
                     <DeleteIcon />
                   </IconButton>
                 }
               >
-                <ListItemText primary={category} />
+                <ListItemText primary={category.name} />
               </ListItem>
             ))}
           </List>

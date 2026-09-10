@@ -12,7 +12,12 @@ import { transactionActions } from "../../redux/transactionSlice";
 
 const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const allCategories = useSelector((state) => state.categories.categories);
+
+  const categories = allCategories.filter(
+    (category) => category.userId === currentUser.id,
+  );
 
   const [formData, setFormData] = useState({
     title: "",
@@ -59,6 +64,7 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
     const transactionData = {
       ...formData,
       amount: Number(formData.amount),
+      userId: currentUser.id,
     };
 
     if (editingTransaction) {
@@ -135,8 +141,8 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
           fullWidth
         >
           {categories.map((category) => (
-            <MenuItem key={category} value={category}>
-              {category}
+            <MenuItem key={category.id} value={category.name}>
+              {category.name}
             </MenuItem>
           ))}
         </TextField>
