@@ -87,7 +87,7 @@ Transfers between wallets are excluded from financial reports because they repre
 ### Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/mirzakhani2003-del/Expense-Manager.git)
 ```
 
 ### Install dependencies
