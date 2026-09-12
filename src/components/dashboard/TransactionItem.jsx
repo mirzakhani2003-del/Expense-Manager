@@ -3,12 +3,15 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { transactionActions } from "../../redux/transactionSlice";
 
 const TransactionItem = ({ transaction, onEdit }) => {
   const isIncome = transaction.type === "income";
   const dispatch = useDispatch();
+
+  const wallets = useSelector((state) => state.wallets.wallets);
+  const wallet = wallets.find((wallet) => wallet.id === transaction.walletId);
 
   return (
     <Box
@@ -48,6 +51,7 @@ const TransactionItem = ({ transaction, onEdit }) => {
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Chip label={transaction.category} size="small" />
+        <Chip label={wallet.name || "No wallet"} size="small" />
         <Typography
           fontWeight="bold"
           color={isIncome ? "success.main" : "error.main"}

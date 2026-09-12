@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Landing from "./pages/Landing";
 import PublicRoute from "./components/PublicRoute";
+import Wallets from "./pages/Wallet";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: "/reports",
             element: <Reports />,
+          },
+          {
+            path: "wallets",
+            element: <Wallets />,
           },
         ],
       },

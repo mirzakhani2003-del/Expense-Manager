@@ -5,6 +5,7 @@ import {
   Paper,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,16 +15,25 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.auth.currentUser);
   const allCategories = useSelector((state) => state.categories.categories);
+  const wallets = useSelector((state) => state.wallets.wallets);
+  const transactions = useSelector((state) => state.transactions.transactions);
 
   const categories = allCategories.filter(
     (category) => category.userId === currentUser.id,
   );
+
+  const userWallets = wallets.filter(
+    (wallet) => wallet.userId === currentUser.id,
+  );
+
+  const [error, setError] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
     amount: "",
     type: "expense",
     category: "Food",
+    walletId: "",
     date: "",
   });
 
@@ -33,8 +43,11 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
       amount: "",
       type: "expense",
       category: "Food",
+      walletId: "",
       date: "",
     });
+
+    setError("");
   };
 
   useEffect(() => {
@@ -45,6 +58,7 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
         amount: editingTransaction.amount,
         type: editingTransaction.type,
         category: editingTransaction.category,
+        walletId: editingTransaction.walletId || "",
         date: editingTransaction.date,
       });
     } else {
@@ -61,9 +75,26 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    setError("");
+
+    const amount = Number(formData.amount);
+
+    if (formData.type === "expense") {
+      const walletBalance = getWalletBalance(formData.walletId);
+
+      if (walletBalance < amount) {
+        setError(
+          `Not enough balance in selected wallet.
+          Available: $${walletBalance.toLocaleString()}, Required: $${amount.toLocaleString()}`,
+        );
+
+        return;
+      }
+    }
+
     const transactionData = {
       ...formData,
-      amount: Number(formData.amount),
+      amount,
       userId: currentUser.id,
     };
 
@@ -82,6 +113,22 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
     resetForm();
   };
 
+  const getWalletBalance = (walletId) => {
+    return transactions
+      .filter(
+        (transaction) =>
+          transaction.userId === currentUser.id &&
+          transaction.walletId === walletId,
+      )
+      .reduce((balance, transaction) => {
+        if (transaction.type === "income") {
+          return balance + transaction.amount;
+        }
+
+        return balance - transaction.amount;
+      }, 0);
+  };
+
   return (
     <Paper
       elevation={0}
@@ -95,6 +142,12 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
       <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
         {editingTransaction ? "Edit Transaction" : "Add Transaction"}
       </Typography>
+
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
       <Box
         component="form"
@@ -143,6 +196,22 @@ const TransactionForm = ({ editingTransaction, onFinishEdit }) => {
           {categories.map((category) => (
             <MenuItem key={category.id} value={category.name}>
               {category.name}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          label="Wallet"
+          name="walletId"
+          value={formData.walletId}
+          onChange={handleChange}
+          fullWidth
+          required
+        >
+          {userWallets.map((wallet) => (
+            <MenuItem key={wallet.id} value={wallet.id}>
+              {wallet.name}
             </MenuItem>
           ))}
         </TextField>

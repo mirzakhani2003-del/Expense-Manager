@@ -13,6 +13,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import { Wallet } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -88,9 +89,33 @@ const Sidebar = ({ open, onClose }) => {
           }}
         >
           <ListItemIcon>
-            <ReceiptLongIcon  />
+            <ReceiptLongIcon />
           </ListItemIcon>
           <ListItemText primary="Transactions" />
+        </ListItemButton>
+
+        <ListItemButton
+          component={NavLink}
+          to="/wallets"
+          onClick={onClose}
+          sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
+
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
+          <ListItemIcon>
+            <Wallet />
+          </ListItemIcon>
+          <ListItemText primary="Wallets" />
         </ListItemButton>
 
         <ListItemButton

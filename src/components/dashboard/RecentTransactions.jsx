@@ -19,10 +19,15 @@ import { useState } from "react";
 const RecentTransactions = ({ onEdit }) => {
   const transactions = useSelector((state) => state.transactions.transactions);
   const allCategories = useSelector((state) => state.categories.categories);
+  const allWallets = useSelector((state) => state.wallets.wallets);
   const currentUser = useSelector((state) => state.auth.currentUser);
 
   const categories = allCategories.filter(
     (category) => category.userId === currentUser.id,
+  );
+
+  const wallets = allWallets.filter(
+    (wallet) => wallet.userId === currentUser.id,
   );
 
   const userTransactions = transactions.filter(
@@ -32,6 +37,7 @@ const RecentTransactions = ({ onEdit }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [walletFilter, setWalletFilter] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -47,6 +53,9 @@ const RecentTransactions = ({ onEdit }) => {
     const matchesCategory =
       categoryFilter === "all" || transaction.category === categoryFilter;
 
+    const matchesWallet =
+      walletFilter === "all" || transaction.walletId === walletFilter;
+
     const matchesStartDate = !startDate || transaction.date >= startDate;
     const matchesEndDate = !endDate || transaction.date <= endDate;
 
@@ -54,6 +63,7 @@ const RecentTransactions = ({ onEdit }) => {
       matchesSearch &&
       matchesType &&
       matchesCategory &&
+      matchesWallet &&
       matchesStartDate &&
       matchesEndDate
     );
@@ -63,6 +73,7 @@ const RecentTransactions = ({ onEdit }) => {
     setSearchTerm("");
     setTypeFilter("all");
     setCategoryFilter("all");
+    setWalletFilter("all");
     setStartDate("");
     setEndDate("");
   };
@@ -120,9 +131,31 @@ const RecentTransactions = ({ onEdit }) => {
               >
                 <MenuItem value="all">All Categories</MenuItem>
 
+                <MenuItem value="Transfer">Transfer</MenuItem>
+
                 {categories.map((category) => (
                   <MenuItem key={category.id} value={category.name}>
                     {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+            <FormControl fullWidth>
+              <InputLabel>Wallet</InputLabel>
+
+              <Select
+                value={walletFilter}
+                label="Wallet"
+                onChange={(event) => setWalletFilter(event.target.value)}
+              >
+                <MenuItem value="all">All Wallets</MenuItem>
+
+                {wallets.map((wallet) => (
+                  <MenuItem key={wallet.id} value={wallet.id}>
+                    {wallet.name}
                   </MenuItem>
                 ))}
               </Select>

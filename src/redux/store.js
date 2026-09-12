@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import transactionReducer from "./transactionSlice";
 import categoryReducer from "./categorySlice";
 import authReducer from "./authSlice";
+import walletReducer from "./walletSlice";
 
 export const store = configureStore({
   reducer: {
     transactions: transactionReducer,
     categories: categoryReducer,
     auth: authReducer,
+    wallets: walletReducer,
   },
 });
 
@@ -32,5 +34,10 @@ store.subscribe(() => {
   localStorage.setItem(
     "expense-manager-current-user",
     JSON.stringify(state.auth.currentUser),
+  );
+
+  localStorage.setItem(
+    "expense-manager-wallets",
+    JSON.stringify(state.wallets.wallets),
   );
 });

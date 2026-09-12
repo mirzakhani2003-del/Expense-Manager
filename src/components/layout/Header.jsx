@@ -28,6 +28,7 @@ const Header = ({ onMenuClick }) => {
   const pageTitles = {
     "/dashboard": "Dashboard",
     "/transactions": "Transactions",
+    "/wallets": "Wallets",
     "/categories": "Categories",
     "/reports": "Reports",
   };
