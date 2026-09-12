@@ -20,7 +20,11 @@ const IncomeExpenseChart = () => {
     const groupedData = {};
 
     transactions
-      .filter((transaction) => transaction.userId === currentUser.id)
+      .filter(
+        (transaction) =>
+          transaction.userId === currentUser.id &&
+          transaction.category !== "Transfer",
+      )
       .forEach((transaction) => {
         const { date, amount, type } = transaction;
 
@@ -44,7 +48,7 @@ const IncomeExpenseChart = () => {
     return Object.values(groupedData).sort(
       (a, b) => new Date(a.date) - new Date(b.date),
     );
-  }, [transactions, currentUser]);
+  }, [transactions, currentUser.id]);
 
   if (chartData.length === 0) {
     return (

@@ -14,16 +14,25 @@ const Dashboard = () => {
   );
 
   const totalIncome = userTransactions
-    .filter((transaction) => transaction.type === "income")
+    .filter(
+      (transaction) =>
+        transaction.type === "income" && transaction.category !== "Transfer",
+    )
     .reduce((total, transaction) => total + transaction.amount, 0);
 
   const totalExpenses = userTransactions
-    .filter((transaction) => transaction.type === "expense")
+    .filter(
+      (transaction) =>
+        transaction.type === "expense" && transaction.category !== "Transfer",
+    )
     .reduce((total, transaction) => total + transaction.amount, 0);
 
   const balance = totalIncome - totalExpenses;
 
-  const savings = totalIncome - totalExpenses;
+  const savings = balance;
+
+  const savingsRate =
+    totalIncome === 0 ? 0 : ((savings / totalIncome) * 100).toFixed(1);
 
   return (
     <Box>
@@ -63,8 +72,8 @@ const Dashboard = () => {
           icon={<TrendingDownIcon color="error" />}
         />
         <SummaryCard
-          title="Savings"
-          amount={`${savings.toLocaleString()}`}
+          title="Savings Rate"
+          amount={`${savingsRate}%`}
           icon={<SavingsIcon color="secondary" />}
         />
       </Box>

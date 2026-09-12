@@ -28,13 +28,14 @@ const ExpensePieCharts = () => {
   );
 
   const chartData = useMemo(() => {
-    const expenses = userTransactions.filter(
-      (transaction) => transaction.type === "expense",
+    const realExpenses = userTransactions.filter(
+      (transaction) =>
+        transaction.type === "expense" && transaction.category !== "Transfer",
     );
 
     const categoryTotals = {};
 
-    expenses.forEach((transaction) => {
+    realExpenses.forEach((transaction) => {
       if (categoryTotals[transaction.category]) {
         categoryTotals[transaction.category] += Number(transaction.amount);
       } else {
