@@ -12,7 +12,6 @@ import { authActions } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { categoryActions } from "../redux/categorySlice";
 import { defaultCategories } from "../data/defaultCategories";
-import { transactionActions } from "../redux/transactionSlice";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -70,12 +69,6 @@ const Register = () => {
     };
 
     dispatch(authActions.register(newUser));
-
-    dispatch(
-      transactionActions.addDefaultTransactions({
-        userId: newUser.id,
-      }),
-    );
 
     defaultCategories.forEach((categoryName) => {
       dispatch(
