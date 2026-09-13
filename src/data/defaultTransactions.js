@@ -4,6 +4,7 @@ export const defaultTransactions = [
     amount: 35,
     type: "expense",
     category: "Food",
+    walletKey: "main",
     date: "2026-08-24",
   },
   {
@@ -11,6 +12,7 @@ export const defaultTransactions = [
     amount: 2500,
     type: "income",
     category: "Salary",
+    walletKey: "main",
     date: "2026-08-23",
   },
   {
@@ -18,6 +20,7 @@ export const defaultTransactions = [
     amount: 15,
     type: "expense",
     category: "Transport",
+    walletKey: "main",
     date: "2026-08-22",
   },
   {
@@ -25,6 +28,7 @@ export const defaultTransactions = [
     amount: 45,
     type: "expense",
     category: "Bills",
+    walletKey: "main",
     date: "2026-08-21",
   },
 ];

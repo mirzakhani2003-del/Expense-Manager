@@ -10,8 +10,12 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { walletActions } from "../redux/walletSlice";
+import { transactionActions } from "../redux/transactionSlice";
 import { categoryActions } from "../redux/categorySlice";
 import { defaultCategories } from "../data/defaultCategories";
+import { defaultWallets } from "../data/defaultWallets";
+import { defaultTransactions } from "../data/defaultTransactions";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -74,6 +78,37 @@ const Register = () => {
       dispatch(
         categoryActions.addCategory({
           name: categoryName,
+          userId: newUser.id,
+        }),
+      );
+    });
+
+    const createdWallets = defaultWallets.map((wallet) => {
+      return {
+        id: crypto.randomUUID(),
+        name: wallet.name,
+        userId: newUser.id,
+        key: wallet.key,
+      };
+    });
+
+    createdWallets.forEach((wallet) => {
+      dispatch(walletActions.addWallet(wallet));
+    });
+
+    defaultTransactions.forEach((transaction) => {
+      const wallet = createdWallets.find(
+        (wallet) => wallet.key === transaction.walletKey,
+      );
+
+      if (!wallet) return;
+
+      const { walletKey, ...transactionData } = transaction;
+
+      dispatch(
+        transactionActions.addTransaction({
+          ...transactionData,
+          walletId: wallet.id,
           userId: newUser.id,
         }),
       );
