@@ -5,6 +5,10 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SavingsIcon from "@mui/icons-material/Savings";
 import SummaryCard from "../components/dashboard/SummaryCard";
 import { useSelector } from "react-redux";
+import ExpensePieCharts from "../components/ExpensePieChart";
+import IncomeExpenseChart from "../components/IncomeExpenseChart";
+import WalletOverview from "../components/dashboard/WalletOverview";
+import UpcomingPayments from "../components/dashboard/UpcomingPayments";
 
 const Dashboard = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
@@ -76,6 +80,60 @@ const Dashboard = () => {
           amount={`${savingsRate}%`}
           icon={<SavingsIcon color="secondary" />}
         />
+      </Box>
+
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h5" fontWeight="bold" sx={{ mb: 2 }}>
+          Financial Analytics
+        </Typography>
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              lg: "repeat(2, 1fr)",
+            },
+            gap: 2,
+          }}
+        >
+          <Box
+            sx={{
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 3,
+              p: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+              Expenses by Category
+            </Typography>
+
+            <ExpensePieCharts />
+          </Box>
+
+          <Box
+            sx={{
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 3,
+              p: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+              Income vs Expenses
+            </Typography>
+
+            <IncomeExpenseChart />
+          </Box>
+        </Box>
+      </Box>
+
+      <Box sx={{ mt: 4 }}>
+        <WalletOverview />
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <UpcomingPayments />
       </Box>
     </Box>
   );

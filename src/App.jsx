@@ -3,7 +3,6 @@ import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Categories from "./pages/Categories";
-import Reports from "./pages/Reports";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -49,10 +48,6 @@ const router = createBrowserRouter([
           {
             path: "/categories",
             element: <Categories />,
-          },
-          {
-            path: "/reports",
-            element: <Reports />,
           },
           {
             path: "wallets",

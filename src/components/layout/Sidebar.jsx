@@ -166,30 +166,6 @@ const Sidebar = ({ open, onClose }) => {
           </ListItemIcon>
           <ListItemText primary="Reminders" />
         </ListItemButton>
-
-        <ListItemButton
-          component={NavLink}
-          to="/reports"
-          onClick={onClose}
-          sx={{
-            mx: 1,
-            mb: 0.5,
-            borderRadius: 2,
-            "&.active": {
-              backgroundColor: "primary.main",
-              color: "white",
-
-              "& .MuiListItemIcon-root": {
-                color: "white",
-              },
-            },
-          }}
-        >
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Reports" />
-        </ListItemButton>
       </List>
     </Drawer>
   );
