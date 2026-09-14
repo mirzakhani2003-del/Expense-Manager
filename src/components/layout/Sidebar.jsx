@@ -13,6 +13,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import { NotificationsActive } from "@mui/icons-material";
 import { Wallet } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
@@ -140,6 +141,30 @@ const Sidebar = ({ open, onClose }) => {
             <CategoryIcon />
           </ListItemIcon>
           <ListItemText primary="Categories" />
+        </ListItemButton>
+
+        <ListItemButton
+          component={NavLink}
+          to="/reminders"
+          onClick={onClose}
+          sx={{
+            mx: 1,
+            mb: 0.5,
+            borderRadius: 2,
+            "&.active": {
+              backgroundColor: "primary.main",
+              color: "white",
+
+              "& .MuiListItemIcon-root": {
+                color: "white",
+              },
+            },
+          }}
+        >
+          <ListItemIcon>
+            <NotificationsActive />
+          </ListItemIcon>
+          <ListItemText primary="Reminders" />
         </ListItemButton>
 
         <ListItemButton

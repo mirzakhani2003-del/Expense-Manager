@@ -3,6 +3,7 @@ import transactionReducer from "./transactionSlice";
 import categoryReducer from "./categorySlice";
 import authReducer from "./authSlice";
 import walletReducer from "./walletSlice";
+import reminderReducer from "./reminderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     categories: categoryReducer,
     auth: authReducer,
     wallets: walletReducer,
+    reminders: reminderReducer,
   },
 });
 
@@ -39,5 +41,10 @@ store.subscribe(() => {
   localStorage.setItem(
     "expense-manager-wallets",
     JSON.stringify(state.wallets.wallets),
+  );
+
+  localStorage.setItem(
+    "expense-manager-reminders",
+    JSON.stringify(state.reminders.reminders),
   );
 });

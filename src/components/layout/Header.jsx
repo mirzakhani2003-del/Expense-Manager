@@ -9,9 +9,12 @@ import {
   Menu,
   MenuItem,
   Divider,
+  Badge,
+  Chip
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../redux/authSlice";
@@ -22,14 +25,20 @@ const Header = ({ onMenuClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector((state) => state.auth.currentUser);
+  const reminders = useSelector((state) => state.reminders.reminders);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const menuOpen = Boolean(anchorEl);
+
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
+  const notificationOpen = Boolean(notificationAnchorEl);
 
   const pageTitles = {
     "/dashboard": "Dashboard",
     "/transactions": "Transactions",
     "/wallets": "Wallets",
     "/categories": "Categories",
+    "/reminders": "Reminders",
     "/reports": "Reports",
   };
 
@@ -47,6 +56,42 @@ const Header = ({ onMenuClick }) => {
     dispatch(authActions.logout());
     handleMenuClose();
     navigate("/login");
+  };
+
+  const importantReminders = reminders.filter((reminder) => {
+    if (reminder.userId !== currentUser?.id) {
+      return false;
+    }
+
+    const today = new Date();
+    const paymentDate = new Date(reminder.nextPaymentDate);
+
+    today.setHours(0, 0, 0, 0);
+    paymentDate.setHours(0, 0, 0, 0);
+
+    return paymentDate <= today;
+  });
+
+  const handleNotificationOpen = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationClose = () => {
+    setNotificationAnchorEl(null);
+  };
+
+  const getReminderStatus = (reminder) => {
+    const today = new Date();
+    const paymentDate = new Date(reminder.nextPaymentDate);
+
+    today.setHours(0, 0, 0, 0);
+    paymentDate.setHours(0, 0, 0, 0);
+
+    if (paymentDate < today) {
+      return "Overdue";
+    }
+
+    return "Due Today";
   };
 
   return (
@@ -108,6 +153,11 @@ const Header = ({ onMenuClick }) => {
           >
             {currentUser ? (
               <>
+                <IconButton onClick={handleNotificationOpen}>
+                  <Badge badgeContent={importantReminders.length} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
                 <IconButton onClick={handleMenuOpen}>
                   <Avatar>{currentUser.name.charAt(0).toUpperCase()}</Avatar>
                 </IconButton>
@@ -133,6 +183,52 @@ const Header = ({ onMenuClick }) => {
                     <LogoutIcon sx={{ mr: 1 }} />
                     Logout
                   </MenuItem>
+                </Menu>
+
+                <Menu
+                  anchorEl={notificationAnchorEl}
+                  open={notificationOpen}
+                  onClose={handleNotificationClose}
+                >
+                  {importantReminders.map((reminder) => {
+                    const status = getReminderStatus(reminder);
+
+                    return (
+                      <MenuItem key={reminder.id}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 0.5,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              gap: 2,
+                            }}
+                          >
+                            <Typography fontWeight="bold">
+                              {reminder.title}
+                            </Typography>
+
+                            <Chip
+                              label={status}
+                              size="small"
+                              color={status === "Overdue" ? "error" : "warning"}
+                            />
+                          </Box>
+
+                          <Typography variant="body2" color="text.secondary">
+                            ${Number(reminder.amount).toLocaleString()} • Due:{" "}
+                            {reminder.nextPaymentDate}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    );
+                  })}
                 </Menu>
               </>
             ) : (

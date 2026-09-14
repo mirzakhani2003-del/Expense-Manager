@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Landing from "./pages/Landing";
 import PublicRoute from "./components/PublicRoute";
 import Wallets from "./pages/Wallet";
+import Reminders from "./pages/Reminders";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
           {
             path: "wallets",
             element: <Wallets />,
+          },
+          {
+            path: "reminders",
+            element: <Reminders />,
           },
         ],
       },
