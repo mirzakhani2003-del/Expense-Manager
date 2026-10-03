@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { authAction } from "../redux/slices/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const loginSchema = yup.object({
   email: yup
@@ -25,6 +26,7 @@ const loginSchema = yup.object({
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const users = useSelector((state) => state.auth.users);
 
   const {
@@ -52,6 +54,7 @@ const Login = () => {
       }
 
       dispatch(authAction.login(existingUser));
+      navigate("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError("root", {
@@ -131,6 +134,10 @@ const Login = () => {
             {errors.root.message}
           </Alert>
         )}
+
+        <Typography variant="body2" sx={{mt: 3, textAlign: "center"}}>
+          Dont have an account? <Link to="/register">Create Account</Link>
+        </Typography>
       </Paper>
     </Box>
   );

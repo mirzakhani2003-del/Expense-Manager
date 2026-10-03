@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { authAction } from "../redux/slices/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const registerSchema = yup.object({
   name: yup
@@ -33,6 +34,7 @@ const registerSchema = yup.object({
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const users = useSelector((state) => state.auth.users);
 
   const {
@@ -63,6 +65,7 @@ const Register = () => {
 
       dispatch(authAction.register(newUser));
       dispatch(authAction.login(newUser));
+      navigate("/dashboard");
     } catch (error) {
       if (error instanceof Error) {
         setError("email", {
@@ -149,6 +152,10 @@ const Register = () => {
             Create Account
           </Button>
         </Box>
+
+        <Typography variant="body2" sx={{ mt: 3, textAlign: "center" }}>
+          Already have an account? <Link to="/login">Login</Link>
+        </Typography>
       </Paper>
     </Box>
   );
