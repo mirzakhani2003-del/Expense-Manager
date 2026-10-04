@@ -2,6 +2,7 @@ const STORAGE_KEYS = {
   users: "expense-manager-users",
   currentUser: "expense-manager-current-user",
   categories: "expense-manager-categories",
+  transactions: "expense-manager-transactions",
 };
 
 export const storage = {
@@ -28,5 +29,15 @@ export const storage = {
   getCategories: () => {
     const categories = localStorage.getItem(STORAGE_KEYS.categories);
     return categories ? JSON.parse(categories) : [];
+  },
+  setTransactions: (transactions) => {
+    localStorage.setItem(
+      STORAGE_KEYS.transactions,
+      JSON.stringify(transactions),
+    );
+  },
+  getTransactions: () => {
+    const transactions = localStorage.getItem(STORAGE_KEYS.transactions);
+    return transactions ? JSON.parse(transactions) : [];
   },
 };
