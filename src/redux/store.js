@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
+import categoryReducer from "./slices/categorySlice";
 import { storage } from "../utils/storage";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    categories: categoryReducer,
   },
 });
 
@@ -21,5 +23,9 @@ store.subscribe(() => {
 
   if (!state.auth.currentUser) {
     storage.removeCurrentUser();
+  }
+
+  if (state.categories.categories) {
+    storage.setCategories(state.categories.categories);
   }
 });

@@ -4,12 +4,13 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Landing = () => {
+  const currentUser = useSelector((state) => state.auth.currentUser);
+
   return (
-    <Box
-      sx={{ display: "flex", minHeight: "100vh", alignItems: "center"}}
-    >
+    <Box sx={{ display: "flex", minHeight: "100vh", alignItems: "center" }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: "center", mb: 8 }}>
           <AccountBalanceWalletIcon
@@ -42,22 +43,35 @@ const Landing = () => {
               flexWrap: "wrap",
             }}
           >
-            <Button
-              component={Link}
-              to="/register"
-              variant="contained"
-              size="large"
-            >
-              Get Started
-            </Button>
-            <Button
-              component={Link}
-              to="/login"
-              variant="outlined"
-              size="large"
-            >
-              Login
-            </Button>
+            {currentUser ? (
+              <Button
+                component={Link}
+                to="/dashboard"
+                variant="contained"
+                size="large"
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <>
+                <Button
+                  component={Link}
+                  to="/register"
+                  variant="contained"
+                  size="large"
+                >
+                  Get Started
+                </Button>
+                <Button
+                  component={Link}
+                  to="/login"
+                  variant="outlined"
+                  size="large"
+                >
+                  Login
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
 

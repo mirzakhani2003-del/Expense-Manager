@@ -1,6 +1,7 @@
 const STORAGE_KEYS = {
   users: "expense-manager-users",
   currentUser: "expense-manager-current-user",
+  categories: "expense-manager-categories",
 };
 
 export const storage = {
@@ -20,5 +21,12 @@ export const storage = {
   },
   removeCurrentUser: () => {
     localStorage.removeItem(STORAGE_KEYS.currentUser);
+  },
+  setCategories: (categories) => {
+    localStorage.setItem(STORAGE_KEYS.categories, JSON.stringify(categories));
+  },
+  getCategories: () => {
+    const categories = localStorage.getItem(STORAGE_KEYS.categories);
+    return categories ? JSON.parse(categories) : [];
   },
 };
