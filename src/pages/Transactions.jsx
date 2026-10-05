@@ -14,7 +14,7 @@ const Transactions = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          my: 2,
+          mb: 2,
         }}
       >
         <Box>
@@ -27,7 +27,7 @@ const Transactions = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", my: 2 }}>
+        <Box sx={{ display: "flex" }}>
           <Button
             variant="contained"
             size="medium"

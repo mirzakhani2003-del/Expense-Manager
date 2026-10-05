@@ -8,6 +8,7 @@ const defaultTransactionFilter = {
   search: "",
   type: "all",
   category: "all",
+  wallet: "all",
   from: "",
   to: "",
 };
@@ -16,6 +17,7 @@ const RecentTransaction = () => {
   const transactions = useSelector((state) => state.transactions.transactions);
   const currentUser = useSelector((state) => state.auth.currentUser);
   const categories = useSelector((state) => state.categories.categories);
+  const wallets = useSelector((state) => state.wallets.wallets);
 
   const [filterTransaction, setFilterTransaction] = useState(
     defaultTransactionFilter,
@@ -27,6 +29,10 @@ const RecentTransaction = () => {
 
   const userCategories = categories.filter(
     (category) => category.userId === currentUser.id,
+  );
+
+  const userWallets = wallets.filter(
+    (wallet) => wallet.userId === currentUser.id,
   );
 
   const filteredTransaction = userTransactions.filter((transaction) => {
@@ -43,6 +49,10 @@ const RecentTransaction = () => {
       filterTransaction.category === "all" ||
       transaction.category === filterTransaction.category;
 
+    const matchesWallet =
+      filterTransaction.wallet === "all" ||
+      transaction.wallet === filterTransaction.wallet;
+
     const matchesStartDate =
       !filterTransaction.from || transaction.date >= filterTransaction.from;
     const matchesEndDate =
@@ -51,6 +61,7 @@ const RecentTransaction = () => {
     return (
       matchesSearch &&
       matchesType &&
+      matchesWallet &&
       matchesCategory &&
       matchesStartDate &&
       matchesEndDate
@@ -75,6 +86,7 @@ const RecentTransaction = () => {
 
         <FilterTransaction
           categories={userCategories}
+          wallets={userWallets}
           filters={filterTransaction}
           onChange={setFilterTransaction}
           onClear={() => setFilterTransaction(defaultTransactionFilter)}

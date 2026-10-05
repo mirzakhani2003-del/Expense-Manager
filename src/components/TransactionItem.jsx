@@ -68,6 +68,7 @@ const TransactionItem = ({ transaction }) => {
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <Chip label={transaction.wallet} size="small" />
         <Chip label={transaction.category} size="small" />
         <Typography
           sx={{ fontWeight: "bold" }}

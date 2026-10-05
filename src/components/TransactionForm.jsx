@@ -23,6 +23,7 @@ const transactionSchema = yup.object({
   type: yup.string().required("Please select transaction type"),
   category: yup.string().required("Please select a category for transaction"),
   date: yup.string().required("Please select a date"),
+  wallet: yup.string().required("Please selecet a wallet"),
 });
 
 const TransactionForm = ({ initialData, transactionId, openModal }) => {
@@ -30,6 +31,7 @@ const TransactionForm = ({ initialData, transactionId, openModal }) => {
   const categories = useSelector((state) => state.categories.categories);
   const currentUser = useSelector((state) => state.auth.currentUser);
   const transactions = useSelector((state) => state.transactions.transactions);
+  const wallets = useSelector((state) => state.wallets.wallets);
 
   const [editingMode, setEditingMode] = useState(false);
 
@@ -37,6 +39,7 @@ const TransactionForm = ({ initialData, transactionId, openModal }) => {
     register,
     reset,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(transactionSchema),
@@ -53,36 +56,77 @@ const TransactionForm = ({ initialData, transactionId, openModal }) => {
     (category) => category.userId === currentUser.id,
   );
 
+  const userWallets = wallets.filter(
+    (wallet) => wallet.userId === currentUser.id,
+  );
+
+  const getWalletBalance = (wallet) => {
+    return transactions
+      .filter(
+        (transaction) =>
+          transaction.userId === currentUser.id &&
+          transaction.wallet === wallet.name,
+      )
+      .reduce((balance, transaction) => {
+        if (transaction.type === "income") {
+          return balance + transaction.amount;
+        } else {
+          return balance - transaction.amount;
+        }
+      }, 0);
+  };
+
   const onSubmit = (data) => {
-    if (editingMode && transactionId) {
-      const transaction = transactions.find(
-        (item) => item.id === transactionId,
-      );
+    try {
+      if (data.type === "expense") {
+        const wallet = wallets.find((wallet) => wallet.name === data.wallet);
+        const walletBalance = getWalletBalance(wallet);
 
-      const updatedTransaction = {
-        ...transaction,
-        title: data.title,
-        amount: Number(data.amount),
-        data: data.date,
-        category: data.category,
-        type: data.type,
-      };
+        if (data.amount > walletBalance) {
+          throw new Error(`Not enough balance in selected wallet.
+          Available: $${walletBalance.toLocaleString()}, Required: $${data.amount.toLocaleString()}`);
+        }
+      }
 
-      dispatch(transactionAction.updateTransaction(updatedTransaction));
-      alert("Chages saved !");
-    } else {
-      const newTransaction = {
-        id: crypto.randomUUID(),
-        title: data.title,
-        amount: Number(data.amount),
-        date: data.date,
-        category: data.category,
-        type: data.type,
-        userId: currentUser.id,
-      };
+      if (editingMode && transactionId) {
+        const transaction = transactions.find(
+          (item) => item.id === transactionId,
+        );
 
-      dispatch(transactionAction.addTransaction(newTransaction));
-      reset();
+        const updatedTransaction = {
+          ...transaction,
+          title: data.title,
+          amount: Number(data.amount),
+          data: data.date,
+          category: data.category,
+          wallet: data.wallet,
+          type: data.type,
+        };
+
+        dispatch(transactionAction.updateTransaction(updatedTransaction));
+        alert("Chages saved !");
+      } else {
+        const newTransaction = {
+          id: crypto.randomUUID(),
+          title: data.title,
+          amount: Number(data.amount),
+          date: data.date,
+          category: data.category,
+          wallet: data.wallet,
+          type: data.type,
+          userId: currentUser.id,
+        };
+
+        dispatch(transactionAction.addTransaction(newTransaction));
+        reset();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("wallet", {
+          type: "manual",
+          message: error.message,
+        });
+      }
     }
   };
 
@@ -133,6 +177,17 @@ const TransactionForm = ({ initialData, transactionId, openModal }) => {
         </TextField>
         {errors.category && (
           <Alert severity="error">{errors.category.message}</Alert>
+        )}
+
+        <TextField select label="Wallet" fullWidth {...register("wallet")}>
+          {userWallets.map((wallet) => (
+            <MenuItem key={wallet.id} value={wallet.name}>
+              {wallet.name}
+            </MenuItem>
+          ))}
+        </TextField>
+        {errors.wallet && (
+          <Alert severity="error">{errors.wallet.message}</Alert>
         )}
 
         <TextField type="date" label="Date" fullWidth {...register("date")} />

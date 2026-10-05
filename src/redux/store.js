@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import categoryReducer from "./slices/categorySlice";
 import transactionReducer from "./slices/transactionSlice";
+import walletReducer from "./slices/walletSlice";
 import { storage } from "../utils/storage";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     auth: authReducer,
     categories: categoryReducer,
     transactions: transactionReducer,
+    wallets: walletReducer,
   },
 });
 
@@ -33,5 +35,9 @@ store.subscribe(() => {
 
   if (state.transactions.transactions) {
     storage.setTransactions(state.transactions.transactions);
+  }
+
+  if (state.wallets.wallets) {
+    storage.setWallets(state.wallets.wallets);
   }
 });

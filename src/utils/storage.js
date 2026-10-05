@@ -3,6 +3,7 @@ const STORAGE_KEYS = {
   currentUser: "expense-manager-current-user",
   categories: "expense-manager-categories",
   transactions: "expense-manager-transactions",
+  wallets: "expense-manager-wallets",
 };
 
 export const storage = {
@@ -39,5 +40,12 @@ export const storage = {
   getTransactions: () => {
     const transactions = localStorage.getItem(STORAGE_KEYS.transactions);
     return transactions ? JSON.parse(transactions) : [];
+  },
+  setWallets: (wallets) => {
+    localStorage.setItem(STORAGE_KEYS.wallets, JSON.stringify(wallets));
+  },
+  getWallets: () => {
+    const wallets = localStorage.getItem(STORAGE_KEYS.wallets);
+    return wallets ? JSON.parse(wallets) : [];
   },
 };
