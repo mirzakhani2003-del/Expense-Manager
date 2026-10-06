@@ -4,6 +4,7 @@ const STORAGE_KEYS = {
   categories: "expense-manager-categories",
   transactions: "expense-manager-transactions",
   wallets: "expense-manager-wallets",
+  reminders: "epense-manager-reminders",
 };
 
 export const storage = {
@@ -47,5 +48,12 @@ export const storage = {
   getWallets: () => {
     const wallets = localStorage.getItem(STORAGE_KEYS.wallets);
     return wallets ? JSON.parse(wallets) : [];
+  },
+  setReminders: (reminders) => {
+    localStorage.setItem(STORAGE_KEYS.reminders, JSON.stringify(reminders));
+  },
+  getReminders: () => {
+    const reminders = localStorage.getItem(STORAGE_KEYS.reminders);
+    return reminders ? JSON.parse(reminders) : [];
   },
 };

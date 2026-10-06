@@ -22,7 +22,7 @@ const Transactions = () => {
             Transactions
           </Typography>
 
-          <Typography color="text.secondary">
+          <Typography color="text.secondary" sx={{ mt: 1, mb: 3 }}>
             Manage your income and expense transactions
           </Typography>
         </Box>

@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import categoryReducer from "./slices/categorySlice";
 import transactionReducer from "./slices/transactionSlice";
 import walletReducer from "./slices/walletSlice";
+import reminderReducer from "./slices/reminderSlice";
 import { storage } from "../utils/storage";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     categories: categoryReducer,
     transactions: transactionReducer,
     wallets: walletReducer,
+    reminders: reminderReducer,
   },
 });
 
@@ -39,5 +41,9 @@ store.subscribe(() => {
 
   if (state.wallets.wallets) {
     storage.setWallets(state.wallets.wallets);
+  }
+
+  if (state.reminders.reminders) {
+    storage.setReminders(state.reminders.reminders);
   }
 });
