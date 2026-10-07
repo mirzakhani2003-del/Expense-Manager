@@ -10,7 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useDispatch, useSelector } from "react-redux";
-import { reminderAction } from "../redux/slices/reminderSlice";
+import { reminderAction } from "../../redux/slices/reminderSlice";
 import { useState } from "react";
 import ReminderForm from "./ReminderForm";
 

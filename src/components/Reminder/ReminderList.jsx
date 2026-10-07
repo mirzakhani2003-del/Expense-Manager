@@ -1,8 +1,8 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import ReminderCard from "./ReminderCard";
 import { useDispatch, useSelector } from "react-redux";
-import { transactionAction } from "../redux/slices/transactionSlice";
-import { reminderAction } from "../redux/slices/reminderSlice";
+import { transactionAction } from "../../redux/slices/transactionSlice";
+import { reminderAction } from "../../redux/slices/reminderSlice";
 
 const ReminderList = () => {
   const dispatch = useDispatch();

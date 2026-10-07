@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import CategoryManager from "../components/CategoryManager";
+import CategoryManager from "../components/Category/CategoryManager";
 
 const Categories = () => {
   return (

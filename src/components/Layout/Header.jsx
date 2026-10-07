@@ -11,13 +11,16 @@ import {
   Badge,
   Chip,
 } from "@mui/material";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { authAction } from "../redux/slices/authSlice";
+import { authAction } from "../../redux/slices/authSlice";
+import { useThemeMode } from "../../theme/ThemeContext";
 
 const Header = ({ onMenuClick }) => {
   const dispatch = useDispatch();
@@ -25,6 +28,8 @@ const Header = ({ onMenuClick }) => {
   const location = useLocation();
   const currentUser = useSelector((state) => state.auth.currentUser);
   const reminders = useSelector((state) => state.reminders.reminders);
+
+  const { themeMode, toggleTheme } = useThemeMode();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const menuOpen = Boolean(anchorEl);
@@ -99,7 +104,7 @@ const Header = ({ onMenuClick }) => {
       elevation={1}
       sx={{
         background: "transparent",
-        color: "text.secondary",
+        color: "text.primary"
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between", px: { xs: 1, sm: 2 } }}>
@@ -120,6 +125,17 @@ const Header = ({ onMenuClick }) => {
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <IconButton
+            onClick={toggleTheme}
+            aria-label={
+              themeMode === "light"
+                ? "Switch to dark mode"
+                : "Switch to light mode"
+            }
+          >
+            {themeMode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
+          </IconButton>
+
           <IconButton>
             <Badge
               badgeContent={importantReminders.length}

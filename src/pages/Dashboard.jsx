@@ -4,11 +4,11 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import SavingsIcon from "@mui/icons-material/Savings";
 import { useSelector } from "react-redux";
-import SummaryCard from "../components/SummaryCard";
-import ExpensePieChart from "../components/ExpensePieChart";
-import IncomeExpenseChart from "../components/IncomeExpenseChart";
-import WalletOverview from "../components/WalletOverview";
-import UpcomingPayment from "../components/UpcomingPayment";
+import SummaryCard from "../components/Dashboard/SummaryCard";
+import ExpensePieChart from "../components/Dashboard/ExpensePieChart";
+import IncomeExpenseChart from "../components/Dashboard/IncomeExpenseChart";
+import WalletOverview from "../components/Dashboard/WalletOverview";
+import UpcomingPayment from "../components/Dashboard/UpcomingPayment";
 
 const Dashboard = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);

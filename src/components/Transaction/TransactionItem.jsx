@@ -4,7 +4,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch } from "react-redux";
-import { transactionAction } from "../redux/slices/transactionSlice";
+import { transactionAction } from "../../redux/slices/transactionSlice";
 import TransactionForm from "./TransactionForm";
 import { useState } from "react";
 

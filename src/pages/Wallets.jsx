@@ -2,9 +2,9 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import PaymentIcon from "@mui/icons-material/Payment";
 import { useState } from "react";
-import WalletForm from "../components/WalletForm";
-import WalletManager from "../components/WalletManager";
-import WalletTransfer from "../components/WalletTransfer";
+import WalletForm from "../components/Wallet/WalletForm";
+import WalletManager from "../components/Wallet/WalletManager";
+import WalletTransfer from "../components/Wallet/WalletTransfer";
 
 const Wallets = () => {
   const [openModal, setOpenModal] = useState(false);

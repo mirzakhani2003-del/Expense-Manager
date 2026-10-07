@@ -1,17 +1,27 @@
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch } from "react-redux";
-import { walletActions } from "../redux/slices/walletSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { walletActions } from "../../redux/slices/walletSlice";
 import { useState } from "react";
 import WalletForm from "./WalletForm";
 
 const WalletCard = ({ wallet, balance }) => {
   const dispatch = useDispatch();
+  const transactions = useSelector((state) => state.transactions.transactions);
 
   const [openModal, setOpenModal] = useState(false);
 
   const onDelete = (wallet) => {
+    const walletTransactions = transactions.filter(
+      (transaction) => transaction.wallet === wallet.name,
+    );
+
+    if (walletTransactions.length > 0) {
+      alert("This wallet has transactions and cannot be deleted.");
+      return;
+    }
+
     const confirm = window.confirm(
       `Are you sure you want to delete ${wallet.name} wallet?`,
     );

@@ -1,8 +1,8 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import TransactionForm from "../components/TransactionForm";
+import TransactionForm from "../components/Transaction/TransactionForm";
 import { useState } from "react";
-import RecentTransaction from "../components/RecentTransaction";
+import RecentTransaction from "../components/Transaction/RecentTransaction";
 
 const Transactions = () => {
   const [openModal, setOpenModal] = useState(false);

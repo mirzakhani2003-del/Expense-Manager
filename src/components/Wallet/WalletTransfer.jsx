@@ -11,7 +11,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import { transactionAction } from "../redux/slices/transactionSlice";
+import { transactionAction } from "../../redux/slices/transactionSlice";
 
 const transferFormSchema = yup.object({
   from: yup.string().required("Please selcet your source wallet"),

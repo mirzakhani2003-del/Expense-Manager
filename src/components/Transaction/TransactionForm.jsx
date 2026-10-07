@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { transactionAction } from "../redux/slices/transactionSlice";
+import { transactionAction } from "../../redux/slices/transactionSlice";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 

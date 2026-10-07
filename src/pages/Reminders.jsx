@@ -1,8 +1,8 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
-import ReminderForm from "../components/ReminderForm";
+import ReminderForm from "../components/Reminder/ReminderForm";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import ReminderList from "../components/ReminderList";
+import ReminderList from "../components/Reminder/ReminderList";
 
 const Reminders = () => {
   const [openModal, setOpenModal] = useState(false);
