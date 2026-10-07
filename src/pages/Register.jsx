@@ -11,7 +11,13 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
 import { authAction } from "../redux/slices/authSlice";
+import { categoryAction } from "../redux/slices/categorySlice";
+import { transactionAction } from "../redux/slices/transactionSlice";
+import { walletActions } from "../redux/slices/walletSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { defaultCategories } from "../data/defaultCategories";
+import { defaultTransactions } from "../data/defaultTransactions";
+import { defaultWallets } from "../data/defaultWallets";
 
 const registerSchema = yup.object({
   name: yup
@@ -64,6 +70,42 @@ const Register = () => {
       };
 
       dispatch(authAction.register(newUser));
+
+      defaultCategories.forEach((category) => {
+        dispatch(
+          categoryAction.addCategory({
+            id: crypto.randomUUID,
+            name: category,
+            userId: newUser.id,
+          }),
+        );
+      });
+
+      defaultWallets.forEach((wallet) => {
+        dispatch(
+          walletActions.addWallet({
+            id: crypto.randomUUID(),
+            name: wallet,
+            userId: newUser.id,
+          }),
+        );
+      });
+
+      defaultTransactions.forEach((transaction) => {
+        dispatch(
+          transactionAction.addTransaction({
+            id: crypto.randomUUID(),
+            title: transaction.title,
+            amount: transaction.amount,
+            category: transaction.category,
+            wallet: transaction.wallet,
+            data: transaction.date,
+            type: transaction.type,
+            userId: newUser.id,
+          }),
+        );
+      });
+
       dispatch(authAction.login(newUser));
       navigate("/dashboard");
     } catch (error) {
